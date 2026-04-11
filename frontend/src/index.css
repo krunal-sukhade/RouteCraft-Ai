@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Dark mode body styles */
+  body.dark {
+    background-color: #111827;
+    color: #ffffff;
+  }
+  
+  body:not(.dark) {
+    background-color: #ffffff;
+    color: #111827;
+  }
+  
+  /* Ensure root can scroll */
+  #root {
+    min-height: 100vh;
+    position: relative;
+  }
+}
+
+@layer components {
+  .glass-nav {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.6) 100%);
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:scale-105;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Light mode specific styles */
+.light .btn-secondary {
+  @apply bg-black/10 text-gray-900 border-gray-300 hover:bg-black/20;
+}
+
+/* Dark mode specific styles */
+.dark .glass-nav {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+/* Make sections semi-transparent so background shows through */
+section {
+  position: relative;
+}
+
+/* Hero section stays transparent */
+#hero {
+  background: transparent !important;
+}
+
+/* Toggle Switch */
+.toggle {
+  appearance: none;
+  width: 48px;
+  height: 24px;
+  background-color: #4B5563;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle:checked {
+  background-color: #3B82F6;
+}
+
+.toggle::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 4px;
+  transition: transform 0.3s;
+}
+
+.toggle:checked::before {
+  transform: translateX(20px);
+}
+
+/* Add these styles for better route transitions */
+.page-transition {
+  animation: fadeInPage 0.3s ease-in-out;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ensure dashboard content loads properly */
+#root > div {
+  min-height: 100vh;
+}
+
+/* Fix for dashboard rendering */
+.dashboard-container {
+  animation: fadeInPage 0.3s ease-in-out;
+}
+/* Toast Animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-out {
+  animation: slideOut 0.3s ease-out;
+}
