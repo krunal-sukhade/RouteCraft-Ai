@@ -2,6 +2,9 @@ package com.routecraft.backend.services;
 
 import com.routecraft.backend.model.TripResponse;
 import com.routecraft.backend.model.TripTokens;
+import com.routecraft.backend.model.SavedTrip;
+import com.routecraft.backend.repositories.SavedTripRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +19,9 @@ import java.util.regex.Pattern;
 
 @Service
 public class TripService {
+
+    @Autowired
+    private SavedTripRepository savedTripRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(TripService.class);
 
@@ -118,5 +124,16 @@ public class TripService {
         String pattern = "\"" + key + "\":\\s*(\\{.*?\\})";
         Matcher matcher = Pattern.compile(pattern, Pattern.DOTALL).matcher(json);
         return matcher.find() ? matcher.group(1) : "{}";
+    }
+
+    public SavedTrip saveTrip(String userId, TripTokens tokens, TripResponse response) {
+        logger.info("Saving trip for user: {} to destination: {}", userId, tokens.destination());
+        SavedTrip trip = new SavedTrip(userId, tokens, response);
+        return savedTripRepository.save(trip);
+    }
+
+    public List<SavedTrip> getSavedTrips(String userId) {
+        logger.info("Fetching saved trips for user: {}", userId);
+        return savedTripRepository.findByUserId(userId);
     }
 }
