@@ -43,4 +43,16 @@ public class TripController {
         logger.info("Received request to fetch saved trips for user: {}", userId);
         return tripService.getSavedTrips(userId);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteTrip(@PathVariable String id) {
+        logger.info("Received request to delete trip with id: {}", id);
+        tripService.deleteTrip(id);
+    }
+
+    @PutMapping("/{id}")
+    public SavedTrip updateTrip(@PathVariable String id, @RequestBody SavedTrip updatedTrip) {
+        logger.info("Received request to update trip with id: {}", id);
+        return tripService.updateTrip(id, updatedTrip);
+    }
 }

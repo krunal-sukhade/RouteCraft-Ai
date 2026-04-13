@@ -136,4 +136,22 @@ public class TripService {
         logger.info("Fetching saved trips for user: {}", userId);
         return savedTripRepository.findByUserId(userId);
     }
+
+    public void deleteTrip(String id) {
+        logger.info("Deleting trip with id: {}", id);
+        savedTripRepository.deleteById(id);
+    }
+
+    public SavedTrip updateTrip(String id, SavedTrip updatedTrip) {
+        logger.info("Updating trip with id: {}", id);
+        // Ensure the ID from the path is set in the object to be saved
+        SavedTrip tripToSave = new SavedTrip(
+            id,
+            updatedTrip.userId(),
+            updatedTrip.tokens(),
+            updatedTrip.response(),
+            updatedTrip.createdAt() != null ? updatedTrip.createdAt() : java.time.LocalDateTime.now()
+        );
+        return savedTripRepository.save(tripToSave);
+    }
 }
